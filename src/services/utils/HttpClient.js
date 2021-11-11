@@ -6,7 +6,7 @@ class HttpClient {
   }
 
   async get(path, authToken) {
-    const response = await fetch(`${this.baseURL}${path}}`, {
+    const response = await fetch(`${this.baseURL}${path}`, {
       headers: {
         Authorization: `Bearer ${authToken}`,
       },

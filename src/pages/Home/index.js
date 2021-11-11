@@ -1,8 +1,12 @@
 import { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+
 import Button from '../../components/Button';
 import Select from '../../components/Select';
 
 export default function Home() {
+  const history = useHistory();
+
   useEffect(() => {
     const teste = JSON.parse(localStorage.getItem('user'));
 
@@ -16,7 +20,7 @@ export default function Home() {
 
         console.log(response);
       } catch (error) {
-        console.log(error);
+        history.push('/login');
       }
     }
     testefn();
