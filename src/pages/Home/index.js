@@ -1,12 +1,8 @@
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import Button from '../../components/Button';
-import Select from '../../components/Select';
-
 export default function Home() {
   const history = useHistory();
-
   useEffect(() => {
     const teste = JSON.parse(localStorage.getItem('user'));
 
@@ -27,10 +23,6 @@ export default function Home() {
   }, []);
   return (
     <>
-      <Select>
-        <option value="teste">teste</option>
-      </Select>
-      <Button>teste</Button>
       <h1>teste</h1>
     </>
   );

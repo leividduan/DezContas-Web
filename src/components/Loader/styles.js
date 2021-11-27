@@ -53,7 +53,7 @@ export const Overlay = styled.div`
     height: 1em;
     border-radius: 50%;
     margin: 72px auto;
-    position: relative;
+    position: fixed;
     -webkit-transform: translateZ(0);
     -ms-transform: translateZ(0);
     transform: translateZ(0);

@@ -7,6 +7,7 @@ import defaultTheme from '../../assets/styles/themes/default';
 import Routes from '../../Routes';
 
 import { Container } from './styles';
+import MenuBar from '../MenuBar';
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
       <ThemeProvider theme={defaultTheme}>
         <GlobalStyles />
 
+        <MenuBar />
         <Container>
           <Routes />
         </Container>
