@@ -21,7 +21,7 @@ class HttpClient {
     if (response.ok) {
       return body;
     }
-
+    console.log(response);
     throw new APIError(response, body);
   }
 

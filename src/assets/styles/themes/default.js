@@ -9,9 +9,13 @@ export default {
     },
     gray: {
       900: '#222222',
+      500: '#808080',
       200: '#BCBCBC',
+      100: '#E5E5E5',
+      50: '#fcfcfc',
     },
     danger: {
+      lighter: '#ffdddd',
       light: '#f97171',
       main: '#fc5050',
       dark: '#f63131',
