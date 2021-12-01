@@ -5,8 +5,8 @@ class CategoryService {
     this.httpClient = new HttpClient('https://localhost:5001');
   }
 
-  async get(authToken) {
-    return this.httpClient.get('/api/Category', authToken);
+  async get() {
+    return this.httpClient.get('/api/Category');
   }
 }
 

@@ -1,4 +1,5 @@
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, useHistory } from 'react-router-dom';
+import { useState } from 'react';
 
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -9,6 +10,15 @@ import Category from './pages/Category';
 import Report from './pages/Report';
 
 export default function Routes() {
+  const history = useHistory();
+
+  useState(() => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user) {
+      history.push('/login');
+    }
+  }, []);
+
   return (
     <Switch>
       <Route path="/" exact component={Home} />

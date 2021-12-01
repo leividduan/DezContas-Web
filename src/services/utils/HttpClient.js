@@ -3,12 +3,13 @@ import APIError from '../../errors/APIError';
 class HttpClient {
   constructor(baseURL) {
     this.baseURL = baseURL;
+    this.token = JSON.parse(localStorage.getItem('user'))?.token;
   }
 
-  async get(path, authToken) {
+  async get(path) {
     const response = await fetch(`${this.baseURL}${path}`, {
       headers: {
-        Authorization: `Bearer ${authToken}`,
+        Authorization: `Bearer ${this.token}`,
       },
     });
 
@@ -21,7 +22,7 @@ class HttpClient {
     if (response.ok) {
       return body;
     }
-    console.log(response);
+
     throw new APIError(response, body);
   }
 

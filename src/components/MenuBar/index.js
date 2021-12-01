@@ -1,13 +1,20 @@
 import { Link, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { Nav, Menu, MenuItem } from './styles';
 
 import logo from '../../assets/images/logo.svg';
 import showMenuBar from '../../utils/showMenuBar';
 
 export default function MenuBar() {
-  const user = JSON.parse(localStorage.getItem('user'));
+  const [name, setName] = useState('');
   const location = useLocation();
   const show = showMenuBar(location.pathname);
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  useEffect(() => {
+    setName(user?.name);
+  }, [user]);
+
   return (
     show && (
       <Nav>
@@ -26,7 +33,7 @@ export default function MenuBar() {
             <Link to="/relatorios">relatórios</Link>
           </MenuItem>
         </Menu>
-        <p>{user.name}</p>
+        <p>{name}</p>
       </Nav>
     )
   );
