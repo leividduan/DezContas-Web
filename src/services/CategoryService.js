@@ -1,12 +1,10 @@
-import HttpClient from './utils/HttpClient';
+/* eslint-disable class-methods-use-this */
+
+import api from './utils/api';
 
 class CategoryService {
-  constructor() {
-    this.httpClient = new HttpClient('https://localhost:5001');
-  }
-
   async get() {
-    return this.httpClient.get('/api/Category');
+    return (await api.get('/api/Category')).data;
   }
 }
 

@@ -13,7 +13,6 @@ import { Container, Header, Card, DetailsContainer, ErrorContainer, EmptyListCon
 import CategoryService from '../../services/CategoryService';
 
 import sad from '../../assets/images/sad.svg';
-import APIError from '../../errors/APIError';
 
 export default function Category() {
   const theme = useTheme();
@@ -24,16 +23,12 @@ export default function Category() {
   const loadCategories = useCallback(async () => {
     try {
       setIsLoading(true);
-
       const categoriesList = await CategoryService.get();
       setCategories(categoriesList);
       setHasError(false);
     } catch (error) {
       setHasError(true);
       setIsLoading(false);
-      if (error instanceof APIError) {
-        console.log('teste');
-      }
     } finally {
       setIsLoading(false);
     }

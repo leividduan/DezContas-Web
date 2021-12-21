@@ -1,5 +1,5 @@
 import { Link, useHistory } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Form, ButtonContainer } from './styles';
 
@@ -18,13 +18,19 @@ export default function LoginForm() {
   const [error, setError] = useState('');
   const history = useHistory();
 
+  useEffect(() => () => {}, []);
+
   async function handleOnSubmit(event) {
     event.preventDefault();
     try {
       setIsLoading(true);
       setError('');
       const user = await UserService.login({ username, password });
-      localStorage.setItem('user', JSON.stringify(user));
+      if (user) {
+        localStorage.removeItem('user');
+        localStorage.setItem('user', JSON.stringify(user));
+      }
+
       setIsLoading(false);
       history.push('/');
     } catch (err) {

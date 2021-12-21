@@ -1,20 +1,17 @@
-import HttpClient from './utils/HttpClient';
+/* eslint-disable class-methods-use-this */
+import api from './utils/api';
 
 class UserService {
-  constructor() {
-    this.httpClient = new HttpClient('https://localhost:5001');
-  }
-
   async getByUsername(userName) {
-    return this.httpClient.get(`/api/User/${userName}`);
+    return (await api.get(`/api/User/${userName}`)).data;
   }
 
   async createUser(payload) {
-    return this.httpClient.post('/api/User', payload);
+    return (await api.post('/api/User', payload)).data;
   }
 
   async login(payload) {
-    return this.httpClient.post('/api/User/Login', payload);
+    return (await api.post('/api/User/Login', payload)).data;
   }
 }
 
