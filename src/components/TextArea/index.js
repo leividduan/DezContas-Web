@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 
 import { useState } from 'react';
 import TextAreaBase from '../TextAreaBase';
+import { CharCountText } from './styles';
 
 export default function TextArea({ maxLength, onChangeFn }) {
   const [textArea, setTextArea] = useState('');
@@ -15,9 +16,9 @@ export default function TextArea({ maxLength, onChangeFn }) {
   return (
     <div>
       <TextAreaBase value={textArea} maxLength={maxLength} onChange={handleOnChange} />
-      <small>
+      <CharCountText>
         {maxLength - textArea.length} / {maxLength}
-      </small>
+      </CharCountText>
     </div>
   );
 }

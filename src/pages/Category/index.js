@@ -7,6 +7,7 @@ import { useTheme } from 'styled-components';
 import PageContainer from '../../components/PageContainer';
 import Loader from '../../components/Loader';
 import Button from '../../components/Button';
+import ButtonActions from '../../components/ButtonActions';
 
 import { Container, Header, Card, DetailsContainer, ErrorContainer, EmptyListContainer } from './styles';
 
@@ -93,12 +94,12 @@ export default function Category() {
                     <span>{category.name}</span>
                     <p>{category.description}</p>
                   </DetailsContainer>
-                  <div className="actions">
-                    <Link to={`/editar-categoria/${category.id}`}>Editar</Link>
-                    <Link to={`/remover-categoria/${category.id}`} className="danger">
-                      Remover
-                    </Link>
-                  </div>
+                  <ButtonActions
+                    actions={[
+                      { name: 'Editar', to: `/editar-categoria/${category.id}` },
+                      { name: 'Remover', to: `/remover-categoria/${category.id}`, className: 'danger' },
+                    ]}
+                  />
                 </Card>
               ))}
           </>

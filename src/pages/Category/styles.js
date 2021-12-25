@@ -44,29 +44,6 @@ export const Card = styled.div`
   & + & {
     margin-top: 16px;
   }
-
-  .actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-left: 8px;
-
-    a {
-      color: ${({ theme }) => theme.colors.gray[200]};
-      text-decoration: none;
-      font-size: 14px;
-
-      &:hover {
-        color: ${({ theme }) => theme.colors.gray[900]};
-      }
-    }
-
-    .danger {
-      &:hover {
-        color: ${({ theme }) => theme.colors.danger.main};
-      }
-    }
-  }
 `;
 
 export const DetailsContainer = styled.div`

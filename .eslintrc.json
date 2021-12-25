@@ -24,6 +24,7 @@
     "react/jsx-no-bind": "off",
     "camelcase": "off",
     "max-len": "off",
-    "indent": "off"
+    "indent": "off",
+    "react/forbid-prop-types": "off"
   }
 }
