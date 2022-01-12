@@ -8,7 +8,7 @@ export const Header = styled.header`
   align-items: center;
   padding-bottom: 16px;
   border-bottom: 2px solid ${({ theme }) => theme.colors.gray[100]};
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 
   h1 {
     font-size: 24px;
@@ -28,6 +28,10 @@ export const Header = styled.header`
       color: #fff;
     }
   }
+`;
+
+export const CardHeader = styled.h2`
+  margin: 16px 0;
 `;
 
 export const Card = styled.div`

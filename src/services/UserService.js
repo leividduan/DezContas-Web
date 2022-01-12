@@ -1,7 +1,12 @@
 /* eslint-disable class-methods-use-this */
 import api from './utils/api';
+import HttpClient from './utils/HttpClient';
 
 class UserService {
+  constructor() {
+    this.httpClient = new HttpClient('https://localhost:5001');
+  }
+
   async getByUsername(userName) {
     return (await api.get(`/api/User/${userName}`)).data;
   }
@@ -11,7 +16,7 @@ class UserService {
   }
 
   async login(payload) {
-    return (await api.post('/api/User/Login', payload)).data;
+    return this.httpClient.post('/api/User/Login', payload);
   }
 }
 

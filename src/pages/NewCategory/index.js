@@ -6,9 +6,9 @@ export default function NewCategory() {
   return (
     <>
       <PageContainer>
-        <PageHeader title="Nova Categoria" linkTo="/categorias" />
+        <PageHeader title="Nova categoria" linkTo="/categorias" />
 
-        <CategoryForm />
+        <CategoryForm buttonLabel="Cadastrar nova categoria" />
       </PageContainer>
     </>
   );

@@ -8,6 +8,7 @@ import Transaction from './pages/Transaction';
 import Category from './pages/Category';
 import Report from './pages/Report';
 import NewCategory from './pages/NewCategory';
+import EditCategory from './pages/EditCategory';
 
 export default function Routes() {
   return (
@@ -19,6 +20,7 @@ export default function Routes() {
       <Route path="/lancamentos" component={Transaction} />
       <Route path="/categorias" component={Category} />
       <Route path="/nova-categoria" component={NewCategory} />
+      <Route path="/editar-categoria/:id" component={EditCategory} />
       <Route path="/relatorios" component={Report} />
     </Switch>
   );

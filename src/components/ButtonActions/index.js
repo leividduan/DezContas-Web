@@ -17,8 +17,10 @@ export default function ButtonActions({ actions }) {
     setShowOptions((prevState) => !prevState);
   }
 
-  function handleOnBlur() {
-    setShowOptions(false);
+  function handleOnBlur(e) {
+    if (e.relatedTarget == null) {
+      setShowOptions(false);
+    }
   }
   return (
     <>
@@ -28,7 +30,7 @@ export default function ButtonActions({ actions }) {
       {showOptions && (
         <ActionOptions left={left} top={top}>
           {actions.map((action) => (
-            <Link to={action.to} className={action.className}>
+            <Link key={action.name} to={action.to} className={action.className} onClick={action.onClick}>
               {action.name}
             </Link>
           ))}
