@@ -14,12 +14,16 @@ import { Container, Header, CardHeader, Card, DetailsContainer, ErrorContainer, 
 import CategoryService from '../../services/CategoryService';
 
 import sad from '../../assets/images/sad.svg';
+import Modal from '../../components/Modal';
 
 export default function Category() {
   const theme = useTheme();
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [categoryIdToDelete, setCategoryIdToDelete] = useState('');
+  const [categoryNameToDelete, setCategoryNameToDelete] = useState('');
 
   const incomeCategories = useMemo(() => categories.filter((category) => category.transactionType === 1), [categories]);
   const expenseCategories = useMemo(
@@ -53,130 +57,163 @@ export default function Category() {
     loadCategories();
   }
 
+  function handleRemove(id) {
+    setCategoryIdToDelete(id);
+
+    const categoryToDelete = categories.filter((category) => category.id === id)[0];
+    setCategoryNameToDelete(categoryToDelete.name);
+
+    setModalOpen(true);
+  }
+
+  function handleToggleModal() {
+    setModalOpen(!modalOpen);
+  }
+
+  async function handleConfirm() {
+    await CategoryService.delete(categoryIdToDelete);
+    loadCategories();
+  }
+
   return (
-    <PageContainer>
-      <Loader isLoading={isLoading} />
-      <Container>
-        {hasError && (
-          <ErrorContainer>
-            <img src={sad} alt="sad" />
-            <div className="details">
-              <strong>Ocorreu um erro ao obter as suas categorias!</strong>
-              <Button type="button" onClick={handleTryAgain}>
-                Tente novamente
-              </Button>
-            </div>
-          </ErrorContainer>
-        )}
-        {!hasError && (
-          <>
-            <Header justifyContent={categories.length > 0 ? 'space-between' : 'center'}>
-              {categories.length > 0 && (
-                <h1>
-                  {categories.length} {categories.length === 1 ? 'categoria' : 'categorias'}
-                </h1>
+    <>
+      <Modal
+        isOpen={modalOpen}
+        title="Remover categoria"
+        body={`Você deseja realmente remover a categoria ${categoryNameToDelete}?`}
+        confirmLabel="Remover"
+        handleClose={handleToggleModal}
+        handleConfirm={handleConfirm}
+        danger
+      >
+        <p>
+          Você deseja remover a categoria <strong>"{categoryNameToDelete}"</strong>?
+        </p>
+      </Modal>
+      <PageContainer>
+        <Loader isLoading={isLoading} />
+        <Container>
+          {hasError && (
+            <ErrorContainer>
+              <img src={sad} alt="sad" />
+              <div className="details">
+                <strong>Ocorreu um erro ao obter as suas categorias!</strong>
+                <Button type="button" onClick={handleTryAgain}>
+                  Tente novamente
+                </Button>
+              </div>
+            </ErrorContainer>
+          )}
+          {!hasError && (
+            <>
+              <Header justifyContent={categories.length > 0 ? 'space-between' : 'center'}>
+                {categories.length > 0 && (
+                  <h1>
+                    {categories.length} {categories.length === 1 ? 'categoria' : 'categorias'}
+                  </h1>
+                )}
+                <Link to="/nova-categoria">Nova categoria</Link>
+              </Header>
+
+              {categories.length < 1 && !isLoading && (
+                <EmptyListContainer>
+                  <p>
+                    Você ainda não tem nenhuma categoria cadastrada! Clique no botão <strong>"Nova categoria"</strong> à
+                    cima para cadastrar a sua primeira!
+                  </p>
+                </EmptyListContainer>
               )}
-              <Link to="/nova-categoria">Nova categoria</Link>
-            </Header>
 
-            {categories.length < 1 && !isLoading && (
-              <EmptyListContainer>
-                <p>
-                  Você ainda não tem nenhuma categoria cadastrada! Clique no botão <strong>"Nova categoria"</strong> à
-                  cima para cadastrar a sua primeira!
-                </p>
-              </EmptyListContainer>
-            )}
+              {incomeCategories.length > 0 && (
+                <>
+                  <CardHeader>Receitas</CardHeader>
+                  {incomeCategories.map((category) => (
+                    <Card
+                      key={category.id}
+                      borderColor={
+                        category.transactionType === 1
+                          ? theme.colors.primary.main
+                          : category.transactionType === 2
+                          ? theme.colors.danger.main
+                          : theme.colors.gray[500]
+                      }
+                    >
+                      <DetailsContainer>
+                        <span>{category.name}</span>
+                        <p>{category.description}</p>
+                      </DetailsContainer>
+                      <ButtonActions
+                        actions={[
+                          { name: 'Editar', to: `/editar-categoria/${category.id}` },
+                          { name: 'Remover', to: '#', className: 'danger', onClick: () => handleRemove(category.id) },
+                        ]}
+                      />
+                    </Card>
+                  ))}
+                </>
+              )}
 
-            {incomeCategories.length > 0 && (
-              <>
-                <CardHeader>Receitas</CardHeader>
-                {incomeCategories.map((category) => (
-                  <Card
-                    key={category.id}
-                    borderColor={
-                      category.transactionType === 1
-                        ? theme.colors.primary.main
-                        : category.transactionType === 2
-                        ? theme.colors.danger.main
-                        : theme.colors.gray[500]
-                    }
-                  >
-                    <DetailsContainer>
-                      <span>{category.name}</span>
-                      <p>{category.description}</p>
-                    </DetailsContainer>
-                    <ButtonActions
-                      actions={[
-                        { name: 'Editar', to: `/editar-categoria/${category.id}` },
-                        { name: 'Remover', to: '#', className: 'danger' },
-                      ]}
-                    />
-                  </Card>
-                ))}
-              </>
-            )}
+              {expenseCategories.length > 0 && (
+                <>
+                  <CardHeader>Despesas</CardHeader>
+                  {expenseCategories.map((category) => (
+                    <Card
+                      key={category.id}
+                      borderColor={
+                        category.transactionType === 1
+                          ? theme.colors.primary.main
+                          : category.transactionType === 2
+                          ? theme.colors.danger.main
+                          : theme.colors.gray[500]
+                      }
+                    >
+                      <DetailsContainer>
+                        <span>{category.name}</span>
+                        <p>{category.description}</p>
+                      </DetailsContainer>
+                      <ButtonActions
+                        actions={[
+                          { name: 'Editar', to: `/editar-categoria/${category.id}` },
+                          { name: 'Remover', to: '#', className: 'danger', onClick: () => handleRemove(category.id) },
+                        ]}
+                      />
+                    </Card>
+                  ))}
+                </>
+              )}
 
-            {expenseCategories.length > 0 && (
-              <>
-                <CardHeader>Despesas</CardHeader>
-                {expenseCategories.map((category) => (
-                  <Card
-                    key={category.id}
-                    borderColor={
-                      category.transactionType === 1
-                        ? theme.colors.primary.main
-                        : category.transactionType === 2
-                        ? theme.colors.danger.main
-                        : theme.colors.gray[500]
-                    }
-                  >
-                    <DetailsContainer>
-                      <span>{category.name}</span>
-                      <p>{category.description}</p>
-                    </DetailsContainer>
-                    <ButtonActions
-                      actions={[
-                        { name: 'Editar', to: `/editar-categoria/${category.id}` },
-                        { name: 'Remover', to: `/remover-categoria/${category.id}`, className: 'danger' },
-                      ]}
-                    />
-                  </Card>
-                ))}
-              </>
-            )}
-
-            {transferCategories.length > 0 && (
-              <>
-                <CardHeader>Transferências</CardHeader>
-                {transferCategories.map((category) => (
-                  <Card
-                    key={category.id}
-                    borderColor={
-                      category.transactionType === 1
-                        ? theme.colors.primary.main
-                        : category.transactionType === 2
-                        ? theme.colors.danger.main
-                        : theme.colors.gray[500]
-                    }
-                  >
-                    <DetailsContainer>
-                      <span>{category.name}</span>
-                      <p>{category.description}</p>
-                    </DetailsContainer>
-                    <ButtonActions
-                      actions={[
-                        { name: 'Editar', to: `/editar-categoria/${category.id}` },
-                        { name: 'Remover', to: `/remover-categoria/${category.id}`, className: 'danger' },
-                      ]}
-                    />
-                  </Card>
-                ))}
-              </>
-            )}
-          </>
-        )}
-      </Container>
-    </PageContainer>
+              {transferCategories.length > 0 && (
+                <>
+                  <CardHeader>Transferências</CardHeader>
+                  {transferCategories.map((category) => (
+                    <Card
+                      key={category.id}
+                      borderColor={
+                        category.transactionType === 1
+                          ? theme.colors.primary.main
+                          : category.transactionType === 2
+                          ? theme.colors.danger.main
+                          : theme.colors.gray[500]
+                      }
+                    >
+                      <DetailsContainer>
+                        <span>{category.name}</span>
+                        <p>{category.description}</p>
+                      </DetailsContainer>
+                      <ButtonActions
+                        actions={[
+                          { name: 'Editar', to: `/editar-categoria/${category.id}` },
+                          { name: 'Remover', to: '#', className: 'danger', onClick: () => handleRemove(category.id) },
+                        ]}
+                      />
+                    </Card>
+                  ))}
+                </>
+              )}
+            </>
+          )}
+        </Container>
+      </PageContainer>
+    </>
   );
 }

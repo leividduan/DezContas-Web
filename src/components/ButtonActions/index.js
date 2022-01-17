@@ -22,6 +22,14 @@ export default function ButtonActions({ actions }) {
       setShowOptions(false);
     }
   }
+
+  function handleButtonOnClick(onClick) {
+    if (onClick) {
+      onClick();
+      setShowOptions(false);
+    }
+  }
+
   return (
     <>
       <ActionButton type="button" ref={buttonRef} onClick={handleOnClick} onBlur={handleOnBlur}>
@@ -30,7 +38,12 @@ export default function ButtonActions({ actions }) {
       {showOptions && (
         <ActionOptions left={left} top={top}>
           {actions.map((action) => (
-            <Link key={action.name} to={action.to} className={action.className} onClick={action.onClick}>
+            <Link
+              key={action.name}
+              to={action.to}
+              className={action.className}
+              onClick={() => handleButtonOnClick(action.onClick)}
+            >
               {action.name}
             </Link>
           ))}
