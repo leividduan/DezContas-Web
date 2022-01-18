@@ -47,14 +47,13 @@ export const ActionOptions = styled.div`
 
     &:hover {
       color: ${({ theme }) => theme.colors.gray[900]};
-      background-color: ${({ theme }) => theme.colors.gray[100]};
+      background-color: ${({ theme }) => theme.colors.gray[50]};
     }
   }
 
   .danger {
     &:hover {
       color: ${({ theme }) => theme.colors.danger.main};
-      background-color: ${({ theme }) => theme.colors.danger.lighter};
     }
   }
 `;

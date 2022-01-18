@@ -31,9 +31,9 @@ export default function TextArea({ value, maxLength, onChangeFn, placeholder, er
 }
 
 TextArea.propTypes = {
-  value: PropTypes.any.isRequired,
   maxLength: PropTypes.number.isRequired,
   onChangeFn: PropTypes.func.isRequired,
+  value: PropTypes.any,
   error: PropTypes.bool,
   placeholder: PropTypes.string,
 };
@@ -41,4 +41,5 @@ TextArea.propTypes = {
 TextArea.defaultProps = {
   error: false,
   placeholder: '',
+  value: '',
 };
